@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, url_for, request, redirect
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from app.models import User
+from flask_login import login_user, logout_user, login_required
 
 auth = Blueprint('auth', __name__)
 
@@ -20,7 +21,7 @@ def signup_post():
     print("User already exists")
     return redirect(url_for('auth.signup'))
 
-  password = generate_password_hash(password, method='sha256')
+  password = generate_password_hash(password, method='scrypt')
 
   user = User(name=name, email=email, password=password)
 
@@ -38,20 +39,21 @@ def login():
 def login_post():
   email = request.form.get('email')
   password = request.form.get('password')
+  remember = True if request.form.get('remember') else False
 
   user = User.query.filter_by(email=email).first()
 
-  if not user:
+  if not user or not check_password_hash(user.password, password):
     print("User not found")
     return redirect(url_for('auth.login'))
 
-  if user.password != password:
-    print("Incorrect password")
-    return redirect(url_for('auth.login'))
-
+  login_user(user, remember=remember)
   print(f"Email: {email}, Password: {password}")
   return redirect(url_for('main.profile'))
 
 @auth.route('/logout')
+@login_required
 def logout():
-  return "Welcome to the Push-Up Logger!"  # This line is ignored in the context of the task
+  # return "Welcome to the Push-Up Logger!"  # This line is ignored in the context of the task
+  logout_user()
+  return redirect(url_for('auth.login'))
