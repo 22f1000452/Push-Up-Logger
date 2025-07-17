@@ -25,33 +25,33 @@
 </head>
 <body>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('main.index') }}">Push-Up Logger</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="btn btn-outline-secondary" role="button" href="{{ url_for('main.index') }}" style="margin-left: 4px;">All Workout</a>
-        </li>
-        <li class="nav-item">
-          <a class="btn btn-outline-secondary" role="button" href="{{ url_for('main.profile') }}" style="margin-left: 4px;">Account</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        {% if current_user.is_authenticated %}
-        <a href="#" class="btn btn-outline-primary" role="button">Add New Workout</a>
-        {% endif %} {% if not current_user.is_authenticated %}
-        <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-primary" role="button" style="margin-left: 4px;">Sign Up</a>
-        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary" role="button" style="margin-left: 4px;">Log In</a>
-        {% endif %} {% if current_user.is_authenticated %}
-        <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-danger" role="button" style="margin-left: 4px;">Log Out</a>
-        {% endif %}
-      </form>
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url_for('main.index') }}">Push-Up Logger</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="btn btn-outline-secondary" role="button" href="{{ url_for('main.workouts') }}" style="margin-left: 4px;">All Workout</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-secondary" role="button" href="{{ url_for('main.profile') }}" style="margin-left: 4px;">Account</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          {% if current_user.is_authenticated %}
+          <a href="{{ url_for('main.new_workout') }}" class="btn btn-outline-primary" role="button">Add New Workout</a>
+          {% endif %} {% if not current_user.is_authenticated %}
+          <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-primary" role="button" style="margin-left: 4px;">Sign Up</a>
+          <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary" role="button" style="margin-left: 4px;">Log In</a>
+          {% endif %} {% if current_user.is_authenticated %}
+          <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-danger" role="button" style="margin-left: 4px;">Log Out</a>
+          {% endif %}
+        </form>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
   {% block content %}
   {% endblock %}
 </body>
