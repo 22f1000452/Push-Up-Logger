@@ -1,22 +1,31 @@
 {% extends "base.html" %}
 
 {% block head %}
-  {{ super() }}
-  <link rel="stylesheet" href="{{ url_for('static', filename='extended_beauty.css') }}">
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='extended_beauty.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="col-md-4 col-md-offset-4">
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+  <div class="ms-2 flashes flash-message">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}"> {{ message }} </div>
+    {% endfor %}
+  </div>
+  {% endif %} {% endwith %}
   <form method="POST" action="/login" class="container mt-5 ms-2" style="max-width: 500px;">
     <h2>Login</h2>
     <div class="mb-3 form-group">
       <label for="email" class="form-label">Email address</label>
-      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" required placeholder="Enter your Email">
+      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" required
+        placeholder="Enter your Email">
       <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
     </div>
     <div class="mb-3 form-group">
       <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" name="password" required placeholder="Enter your Password">
+      <input type="password" class="form-control" id="password" name="password" required
+        placeholder="Enter your Password">
     </div>
     <div class="mb-3 form-check">
       <input type="checkbox" class="form-check-input" id="remember">

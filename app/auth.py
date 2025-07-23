@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, request, redirect
+from flask import Blueprint, flash, render_template, url_for, request, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from app.models import User
@@ -18,7 +18,7 @@ def signup_post():
 
   user = User.query.filter_by(email=email).first()
   if user:
-    print("User already exists")
+    flash("User already exists, Please Use Different Email...", 'warning')
     return redirect(url_for('auth.signup'))
 
   password = generate_password_hash(password, method='scrypt')
@@ -28,7 +28,7 @@ def signup_post():
   db.session.add(user)
   db.session.commit()
 
-  print(f"Name: {name}, Email: {email}, Password: {password}")
+  # print(f"Name: {name}, Email: {email}, Password: {password}")
   return redirect(url_for('auth.login'))
 
 @auth.route('/login')
@@ -43,12 +43,15 @@ def login_post():
 
   user = User.query.filter_by(email=email).first()
 
-  if not user or not check_password_hash(user.password, password):
-    print("User not found")
+  if not user:
+    flash("User not found", 'danger')
+    return redirect(url_for('auth.login'))
+  elif not check_password_hash(user.password, password):
+    flash("Incorrect password, Please try again...", 'danger')
     return redirect(url_for('auth.login'))
 
   login_user(user, remember=remember)
-  print(f"Email: {email}, Password: {password}")
+  # print(f"Email: {email}, Password: {password}")
   return redirect(url_for('main.profile'))
 
 @auth.route('/logout')

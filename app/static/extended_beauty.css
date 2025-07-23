@@ -2,7 +2,7 @@ h1,
 h2,
 h4,
 p {
-  font-family: 'Arvo', sans-serif;
+  font-family: "Arvo", sans-serif;
   margin-left: 10px;
 }
 
@@ -15,4 +15,20 @@ p {
   padding-right: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
+}
+
+.flash-message {
+  animation: fade-in 0.4s ease-out;
+  margin-top: 1rem;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

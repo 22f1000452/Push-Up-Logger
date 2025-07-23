@@ -20,7 +20,11 @@ def profile():
 @main.route('/workouts')
 @login_required
 def workouts():
-  workouts = Workout.query.filter_by(user_id=current_user.id).all()
+  # workouts = Workout.query.filter_by(user_id=current_user.id).all()
+
+  # pagination can be added here if needed
+  page = request.args.get('page', 1, type=int)
+  workouts = Workout.query.filter_by(user_id=current_user.id).paginate(page=page, per_page=3)
   return render_template('workouts.html', workouts=workouts)
 
 @main.route('/workout/new')
@@ -45,20 +49,12 @@ def new_workout_post():
 @login_required
 def update_workout(workout_id):
   workout = Workout.query.get_or_404(workout_id)
-  # if workout.user_id != current_user.id:
-  #   flash('You do not have permission to edit this workout.', 'danger')
-  #   return redirect(url_for('main.workouts'))
-
   return render_template('update_workout.html', workout=workout)
 
 @main.route('/workout/update/<int:workout_id>', methods=['POST'])
 @login_required
 def update_workout_post(workout_id):
   workout = Workout.query.get_or_404(workout_id)
-  # if workout.user_id != current_user.id:
-  #   flash('You do not have permission to edit this workout.', 'danger')
-  #   return redirect(url_for('main.workouts'))
-
   workout.pushups = int(request.form.get('pushups'))
   workout.comments = request.form.get('comments')
   workout.date = datetime.strptime(request.form.get('date'), '%Y-%m-%d')
@@ -72,10 +68,6 @@ def update_workout_post(workout_id):
 @login_required
 def delete_workout(workout_id):
   workout = Workout.query.get_or_404(workout_id)
-  if workout.user_id != current_user.id:
-    flash('You do not have permission to delete this workout.', 'danger')
-    return redirect(url_for('main.workouts'))
-
   db.session.delete(workout)
   db.session.commit()
 
