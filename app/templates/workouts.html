@@ -1,8 +1,5 @@
 {% extends "base.html" %} {% block head %} {{ super() }}
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename= 'extended_beauty.css') }}"
-/>
+<link rel="stylesheet" href="{{ url_for('static', filename= 'extended_beauty.css') }}" />
 {% endblock %} {% block content %}
 <h1>
   Welcome, {{ current_user.name }}!
@@ -21,22 +18,16 @@
       <tr>
         <td>{{ workout.pushups }}</td>
         <td>{{ workout.date.strftime('%m/%d/%Y') }}</td>
-        <td>{{ workout.comment }}</td>
+        <td>{{ workout.comments }}</td>
         <td>
-          <a
-            href="{{ url_for('main.update_workout', workout_id=workout.id) }}"
-            class="btn btn-outline-primary"
-            role="button"
-          >
+          <a href="{{ url_for('main.update_workout', workout_id=workout.id) }}" class="btn btn-outline-primary"
+            role="button">
             Edit
           </a>
         </td>
         <td>
-          <a
-            href="{{ url_for('main.delete_workout', workout_id=workout.id) }}"
-            class="btn btn-outline-danger"
-            role="button"
-          >
+          <a href="{{ url_for('main.delete_workout', workout_id=workout.id) }}" class="btn btn-outline-danger"
+            role="button">
             Delete
           </a>
         </td>

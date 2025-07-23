@@ -11,7 +11,7 @@
     <div class="col-md-6">
       <div class="card shadow rounded-4">
         <div class="card-header bg-primary text-white text-center rounded-top-4">
-          <h4 class="mb-0">Add New Workout</h4>
+          <h4 class="mb-0">Update Workout</h4>
           {% with messages = get_flashed_messages() %} {% if messages %}
           <div class="notification is-danger">
             {{ messages[0] }}
@@ -19,22 +19,24 @@
           {% endif %} {% endwith %}
         </div>
         <div class="card-body p-4">
-          <form method="POST" action="{{ url_for('main.new_workout') }}">
+          <form method="POST" action="{{ url_for('main.update_workout_post', workout_id=workout.id) }}">
             <div class="mb-3">
               <label for="date" class="form-label">Date</label>
-              <input type="date" class="form-control" id="date" name="date" required>
+              <input type="date" class="form-control" id="date" name="date"
+                value="{{ workout.date.strftime('%Y-%m-%d') }}" required>
             </div>
             <div class="mb-3">
               <label for="pushups" class="form-label">Push-Ups</label>
-              <input type="number" class="form-control" id="pushups" name="pushups" required min="1">
+              <input type="number" class="form-control" id="pushups" name="pushups" required min="1"
+                value="{{ workout.pushups }}">
             </div>
             <div class="mb-3">
               <label for="comments" class="form-label">Comments</label>
               <textarea class="form-control" id="comments" name="comments" rows="3"
-                placeholder="Any notes or observations..."></textarea>
+                placeholder="Any notes or observations...">{{ workout.comments }}</textarea>
             </div>
             <div class="d-grid">
-              <button type="submit" class="btn btn-primary">Add Workout</button>
+              <button type="submit" class="btn btn-primary">Update Workout</button>
             </div>
           </form>
         </div>

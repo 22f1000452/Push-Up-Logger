@@ -34,7 +34,7 @@ def new_workout_post():
   pushup = int(request.form.get('pushups'))
   comment = request.form.get('comments')
   date = request.form.get('date')
-  workout = Workout(user_id=current_user.id, date=datetime.strptime(date, '%Y-%m-%d %H:%M:%S'), pushups=pushup, comments=comment, user=current_user)
+  workout = Workout(user_id=current_user.id, date=datetime.strptime(date, '%Y-%m-%d'), pushups=pushup, comments=comment, user=current_user)
   db.session.add(workout)
   db.session.commit()
 
@@ -61,7 +61,7 @@ def update_workout_post(workout_id):
 
   workout.pushups = int(request.form.get('pushups'))
   workout.comments = request.form.get('comments')
-  workout.date = datetime.strptime(request.form.get('date'), '%Y-%m-%d %H:%M:%S')
+  workout.date = datetime.strptime(request.form.get('date'), '%Y-%m-%d')
 
   db.session.commit()
 
